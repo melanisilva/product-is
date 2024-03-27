@@ -1,33 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~ Copyright (c) 2020, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
     <parent>
-        <groupId>org.wso2.is</groupId>
         <artifactId>identity-server-parent</artifactId>
+        <groupId>org.wso2.is</groupId>
         <version>7.0.1-SNAPSHOT</version>
-        <relativePath>../../../../pom.xml</relativePath>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <name>WSO2 IS - Cypress Integration Test Identity Apps Module</name>
-    <artifactId>org.wso2.identity.cypress.integration.identity.apps.test</artifactId>
+    <name>WSO2 IS - Cypress Integration Test UI E2E Module</name>
+    <artifactId>org.wso2.identity.cypress.ui.e2e.test</artifactId>
     <packaging>jar</packaging>
 
     <build>
@@ -85,53 +68,48 @@
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
+                <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>unpack-cypress-integration-tests</id>
+                        <id>unpack-local-zip</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>run</goal>
                         </goals>
                         <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.wso2.identity.apps</groupId>
-                                    <artifactId>identity-apps-cypress-tests</artifactId>
-                                    <outputDirectory>${basedir}/target/test-classes/tests/</outputDirectory>
-                                    <includes>**\/*.*</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>unpack-cypress-tests-runner</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.wso2.is</groupId>
-                                    <artifactId>org.wso2.identity.apps.test.container</artifactId>
-                                    <outputDirectory>${basedir}/target/test-classes/tests/</outputDirectory>
-                                    <includes>**\/*.*</includes>
-                                </artifactItem>
-                            </artifactItems>
+                            <tasks>
+                                <echo message="unzipping file" />
+                                <unzip src="/Users/melani/Projects/IS_automation/IS-E2E/asgardeo-tests.zip" dest="target" overwrite="true"/>
+
+                                <echo message="--------------Installing npm------------------" />
+                                <exec executable="npm" dir="${project.basedir}/target/asgardeo-tests">
+                                    <arg value="install" />
+                                </exec>
+                            </tasks>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
+                <groupId>com.github.eirslett</groupId>
+                <artifactId>frontend-maven-plugin</artifactId>
+                <version>1.9.1</version>
+                <configuration>
+                    <nodeVersion>v16.14.0</nodeVersion>
+                    <npmVersion>8.3.0</npmVersion>
+                </configuration>
                 <executions>
                     <execution>
+                        <id>run e2e-pretest</id>
+                        <phase>generate-test-resources</phase>
                         <goals>
-                            <goal>test-jar</goal>
+                            <goal>npm</goal>
                         </goals>
+                        <configuration>
+                            <!-- <This will be replaced with pre-tests run command>-->
+                            <workingDirectory>${project.basedir}/target/asgardeo-tests</workingDirectory>
+                            <arguments>run is-tests</arguments>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -141,7 +119,7 @@
                 <version>2.7.1</version>
                 <configuration>
                     <outputDirectory>${basedir}/target/report</outputDirectory>
-                    <outputName>cypress-integration-tests</outputName>
+                    <outputName>cypress-e2e-tests</outputName>
                 </configuration>
                 <executions>
                     <execution>
@@ -152,65 +130,15 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>build-permissions</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                        <configuration>
-                            <target>
-                                <echo>run chmod in ${basedir}</echo>
-                                <chmod dir="${basedir}/target" perm="u+x"/>
-                            </target>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.9.1</version>
-                <configuration>
-                    <nodeVersion>v12.17.0</nodeVersion>
-                    <installDirectory>target/test-classes/tests</installDirectory>
-                    <workingDirectory>target/test-classes/tests</workingDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>install node</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>npm install</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>clear resources</id>
-                        <phase>generate-test-resources</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>run precypress:run</arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
     <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>org.wso2.carbon.automation</groupId>
             <artifactId>org.wso2.carbon.automation.engine</artifactId>
@@ -265,10 +193,5 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.wso2.identity.apps</groupId>
-            <artifactId>identity-apps-cypress-tests</artifactId>
-        </dependency>
     </dependencies>
-
 </project>

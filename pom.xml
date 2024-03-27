@@ -46,6 +46,7 @@
         <module>modules/styles</module>
         <module>modules/tests-utils</module>
         <module>modules/integration</module>
+        <module>modules/integration/tests-e2e-ui</module>
     </modules>
 
     <licenses>
@@ -486,7 +487,6 @@
             <plugin>
                 <inherited>false</inherited>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>2.1</version>
             </plugin>
         </plugins>
 
