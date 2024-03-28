@@ -33,6 +33,7 @@
         <!--<module>tests-cypress-integration</module>-->
         <!--<module>tests-ui-integration</module>-->
         <!--<module>tests</module>-->
+        <module>tests-e2e-ui</module>
     </modules>
     <build>
         <plugins>

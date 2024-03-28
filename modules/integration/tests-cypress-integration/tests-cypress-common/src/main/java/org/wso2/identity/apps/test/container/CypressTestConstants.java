@@ -29,6 +29,8 @@ public final class CypressTestConstants {
 
     public static final String MOCHA_RESULTS_DIR = "output/results";
 
+    public static final String E2E_TEST_SUITE_PATH = "/target/asgardeo-tests";
+
     private CypressTestConstants() {
 
     }
@@ -69,6 +71,8 @@ public final class CypressTestConstants {
         public static final String TENANT_PASSWORD = "TENANT_PASSWORD";
 
         public static final String LOGOUT_URL_QUERY = "LOGOUT_URL_QUERY";
+
+        public static final String TEST_SUITE = "testSuite";
 
         private EnvironmentConfigElements() {
 

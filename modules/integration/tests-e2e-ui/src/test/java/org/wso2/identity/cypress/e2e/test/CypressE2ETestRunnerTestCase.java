@@ -47,26 +47,28 @@ public class CypressE2ETestRunnerTestCase extends ISIntegrationUITest {
         super.init();
     }
 
-    @Test(description = "Execute identity apps cypress test suite.")
-    public void runCyPressTests() throws IOException, URISyntaxException, XPathExpressionException,
+    @Test(description = "Execute IS e2e cypress test suite.")
+    public void runCypressTests() throws IOException, URISyntaxException, XPathExpressionException,
             CypressContainerException {
 
+        System.out.println(" *********** Running E2E Java File ********** ");
         Path path = Paths
                 .get(new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath());
-        String basePath = "/tests";
+        String basePath = "/Users/melani/Projects/IS_automation/Product-is/modules/integration/tests-e2e-ui/target/asgardeo-tests";
 
         URL backEndUrl = new URL(super.getBackendURL());
         String serverUrl = backEndUrl.getProtocol() + "://" + backEndUrl.getHost() + ":" + backEndUrl.getPort() + "/";
+        String testSuite = "is-e2e";
 
-        Path scriptPath = path.resolve(basePath + CypressTestConstants.TEST_SUITE_RUNNER_FILE);
         Path envConfigPath = path.resolve(basePath + CypressTestConstants.CYPRESS_ENV_CONFIG_FILE);
         Path reportsPath = path.resolve(basePath + CypressTestConstants.MOCHA_RESULTS_DIR);
+        Path e2eTestSuitePath = path.resolve(basePath + CypressTestConstants.E2E_TEST_SUITE_PATH);
 
         cypressTestContainer.addOrOverwriteTestConfigProperty(envConfigPath,
-                CypressTestConstants.EnvironmentConfigElements.SERVER_URL, serverUrl);
+                CypressTestConstants.EnvironmentConfigElements.TEST_SUITE, testSuite);
 
         try {
-            cypressTestContainer.runTestSuite(scriptPath);
+            cypressTestContainer.runTestSuite(e2eTestSuitePath);
         } catch (InterruptedException e) {
             throw new CypressContainerException("An error occurred while running the Cypress test suite. " +
                     e.getMessage());
