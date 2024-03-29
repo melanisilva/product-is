@@ -22,7 +22,7 @@
     <parameter name="useDefaultListeners" value="false"/>
 
     <listeners>
-        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestExecutionListener"/>
+        <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestExecutionListener "/>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestSuiteListener"/>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestManagerListener"/>
         <listener class-name="org.wso2.carbon.automation.engine.testlisteners.TestReportListener"/>
@@ -33,4 +33,6 @@
             <class name="org.wso2.identity.cypress.e2e.test.CypressE2ETestRunnerTestCase"/>
         </classes>
     </test>
+
+
 </suite>

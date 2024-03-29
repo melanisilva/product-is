@@ -46,7 +46,6 @@
         <module>modules/styles</module>
         <module>modules/tests-utils</module>
         <module>modules/integration</module>
-        <module>modules/integration/tests-e2e-ui</module>
     </modules>
 
     <licenses>
