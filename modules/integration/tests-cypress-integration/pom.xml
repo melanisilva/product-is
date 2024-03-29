@@ -32,7 +32,8 @@
 
     <modules>
         <module>tests-cypress-common</module>
-        <module>tests-identity-apps</module>
+<!--        <module>tests-identity-apps</module>-->
+        <module>tests-e2e-ui</module>
     </modules>
 
 </project>
