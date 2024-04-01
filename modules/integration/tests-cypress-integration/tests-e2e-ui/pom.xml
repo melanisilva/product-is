@@ -28,7 +28,7 @@
                     <disableXmlReport>false</disableXmlReport>
                     <parallel>false</parallel>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>${basedir}/src/test/resources/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
                     <systemProperties>
                         <property>
@@ -90,51 +90,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.9.1</version>
-                <configuration>
-                    <nodeVersion>v12.17.0</nodeVersion>
-                    <installDirectory>${project.basedir}/target/asgardeo-tests</installDirectory>
-                    <workingDirectory>${project.basedir}/target/asgardeo-tests</workingDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>clear resources</id>
-                        <phase>generate-test-resources</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>run test</arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-<!--            <plugin>-->
-<!--                <groupId>com.github.eirslett</groupId>-->
-<!--                <artifactId>frontend-maven-plugin</artifactId>-->
-<!--                <version>1.9.1</version>-->
-<!--                <configuration>-->
-<!--                    <nodeVersion>v16.14.0</nodeVersion>-->
-<!--                    <npmVersion>8.3.0</npmVersion>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>run e2e-pretest</id>-->
-<!--                        <phase>generate-test-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>npm</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            &lt;!&ndash; <This will be replaced with pre-tests run command>&ndash;&gt;-->
-<!--                            <workingDirectory>${project.basedir}/target/asgardeo-tests</workingDirectory>-->
-<!--                            <arguments>run is-tests</arguments>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
@@ -213,21 +168,6 @@
             <groupId>org.wso2.is</groupId>
             <artifactId>org.wso2.identity.apps.test.container</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.directory.server</groupId>
-            <artifactId>apacheds-protocol-ldap</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.directory.server</groupId>
-            <artifactId>apacheds-core-constants</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.directory.server</groupId>
-            <artifactId>apacheds-core</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

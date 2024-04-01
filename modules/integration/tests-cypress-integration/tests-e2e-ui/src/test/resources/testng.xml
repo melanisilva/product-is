@@ -33,6 +33,4 @@
             <class name="org.wso2.identity.cypress.e2e.test.CypressE2ETestRunnerTestCase"/>
         </classes>
     </test>
-
-
 </suite>
